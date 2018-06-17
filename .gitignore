@@ -1,0 +1,5 @@
+*.egg-info
+.git
+node_modules
+.py
+__pycache__

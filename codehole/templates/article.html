@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}码洞——编辑文章{% endblock %}
+
+{% block css %}
+{{super()}}
+<style>
+.article {
+    margin-bottom: 20px;
+    padding: 0px;
+    border: 0;
+    box-shadow:0 0 0 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+      <div class="card article">
+        <div class="media">
+          <div class="media-content">
+            <img src="{{article.icon}}"/>
+            <p class="title is-3">{{article.title}}</p>
+            <a href="{{url_for('article.article_edit', article_id=article.id)}}">编辑</a>
+          </div>
+        </div>
+      </div>
+		  <div class="content">
+		  {{ article.html|safe }}
+		  </div>
+    </div>
+</div>
+{% endblock %}

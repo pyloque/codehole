@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf8">
+<title>{% block title %}{% endblock %}</title>
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}"/>
+{% endblock %}
+</head>
+<body>
+{%block body%}
+<nav class="navbar is-warning">
+  	<div class="navbar-brand" style="padding:0">
+		  <a class="navbar-item" href="#">
+			  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="码洞"/>
+		  </a>
+      <a class="navbar-burger" id="nav-burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+  	</div>
+	<div class="navbar-menu is-warning" id="nav-menu">
+		<div class="navbar-start">
+			<a class="navbar-item" href="{{url_for('home.home')}}">
+				<span>首页</span>
+			</a>
+			<a class="navbar-item" href="#">
+				<span>文章</span>
+			</a>
+			<a class="navbar-item" href="#">
+				<span>小册</span>
+			</a>
+			<a class="navbar-item" href="#">
+				<span>问答</span>
+			</a>
+		</div>
+		<div class="navbar-end">
+      <div class="navbar-item has-dropdown" id="nav-write-extends">
+        <a class="navbar-link" id="nav-write-link">
+          创作
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="{{ url_for('article.article_new') }}">写文章</a>
+          <a class="navbar-item" href="#">写小册</a>
+        </div>
+      </div>
+      <a class="navbar-item" href="https://juejin.im/books" target="_blank">
+        <img src="{{ url_for('static', filename='img/juejin.svg') }}" alt="掘金"/>
+      </a>
+      <a class="navbar-item" href="http://www.ireader.com" target="_blank">
+        <img src="{{ url_for('static', filename='img/ireader.png') }}" alt="掌阅书城"/>
+      </a>
+		</div>
+	</div>
+</nav>
+<section class="hero is-warning">
+	<div class="hero-body">
+	    <div class="container">
+	        <h1 class="title">
+			         码洞
+	        </h1>
+	        <h2 class="subtitle">
+	        Fire in the Codehole!
+	        </h2>
+	    </div>
+	</div>
+</section>
+{% block content %}{% endblock %}
+{% endblock %}
+</body>
+{% block script %}
+<script src="{{url_for('static', filename='js/zepto.min.js')}}"></script>
+<script>
+Zepto(function($) {
+  $('#nav-burger').on('click', function() {
+    $('#nav-menu').toggleClass("is-active");
+  });
+  $('#nav-write-link').on('mouseover', function() {
+    $('#nav-write-extends').toggleClass("is-active");
+  });
+  $('#nav-write-extends').on('mouseout', function() {
+    $('#nav-write-extends').toggleClass("is-active");
+  });
+});
+</script>
+{% endblock %}

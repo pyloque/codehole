@@ -1,0 +1,11 @@
+click==6.7
+codehole==0.0.1
+Flask==1.0.2
+Flask-SQLAlchemy==2.3.2
+hashids==1.2.0
+itsdangerous==0.24
+Jinja2==2.10
+Markdown==2.6.11
+MarkupSafe==1.0
+SQLAlchemy==1.2.8
+Werkzeug==0.14.1
