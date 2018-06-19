@@ -9,8 +9,18 @@ from codehole.db import db, ArticleModel
 from codehole.core import random_id
 
 
+@blueprint.route("/", methods=["GET"], endpoint="article_list")
+def article_list():
+    articles = (
+        ArticleModel.query
+        .order_by(ArticleModel.create_date.desc())
+        .limit(20).all())
+    return render_template(
+        "article_list.html", articles=articles)
+
+
 @blueprint.route(
-    '/article/<article_id>', methods=["GET"], endpoint="article")
+    '/<article_id>', methods=["GET"], endpoint="article")
 def article_page(article_id):
     article = ArticleModel.query.get(article_id)
     if not article:
@@ -19,13 +29,13 @@ def article_page(article_id):
 
 
 @blueprint.route(
-    '/article/new', methods=["GET"], endpoint="article_new")
+    '/new', methods=["GET"], endpoint="article_new")
 def article_new():
     return render_template("article_new.html")
 
 
 @blueprint.route(
-    '/article/new', methods=["POST"])
+    '/new', methods=["POST"])
 def article_create():
     title = (request.form.get('title') or '').strip()
     author = (request.form.get('author') or '').strip()
@@ -40,7 +50,7 @@ def article_create():
 
 
 @blueprint.route(
-    '/article/edit/<article_id>', methods=["GET"], endpoint="article_edit")
+    '/edit/<article_id>', methods=["GET"], endpoint="article_edit")
 def article_edit(article_id):
     article = ArticleModel.query.get(article_id)
     if not article:
@@ -49,7 +59,7 @@ def article_edit(article_id):
 
 
 @blueprint.route(
-    '/article/edit/<article_id>', methods=["POST"])
+    '/edit/<article_id>', methods=["POST"])
 def article_update(article_id):
     article = ArticleModel.query.get(article_id)
     if not article:
@@ -59,7 +69,11 @@ def article_update(article_id):
     icon = (request.form.get('icon') or '').strip()
     summary = (request.form.get('summary') or '').strip()
     source = (request.form.get('source') or '').strip()
-    if not title or not author or not icon:
+    version = (request.form.get('version') or '').strip()
+    if not title or not author or not icon or not version:
+        abort(400)
+    version = int(version)
+    if version != article.version:
         abort(400)
     html = markdown.markdown(source)
     article.title = title
@@ -69,5 +83,6 @@ def article_update(article_id):
     article.source = source
     article.html = html
     article.is_draft = False
+    article.version += 1
     db.session.commit()
     return redirect(url_for('.article', article_id=article_id))

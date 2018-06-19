@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+
+{% block title %}码洞—创建小册{% endblock %}
+
+{% block css %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dragula.min.css') }}"/>
+<style>
+.card-content {
+  padding: 5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+      <div id="chapter-box">
+      {% for chapter in chapters %}
+      <div class="card" data-cid="{{chapter.id}}">
+        <div class="card-content">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <a class="button is-fullwidth is-text" href="{{url_for('book.edit_chapter', book_id=book.id, chapter_id=chapter.id)}}">第{{loop.index}}章：{{chapter.title}}</a>
+            </div>
+            <div class="control">
+              <a class="button" data-op="edit" data-title="{{chapter.title}}" data-cid="{{chapter.id}}">
+                修改标题
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <div class="field">
+            <div class="control is-expanded">
+              <button id="add-chapter" class="button is-fullwidth is-outlined is-success">添加章节</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal" id="add-chapter-dialog">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">输入章节标题</p>
+            <button class="delete" id="add-chapter-dialog-close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <div class="control">
+                <input class="input is-success is-large" placeholder="无标题" id="add-title"/>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-footer">
+            <button class="button is-success is-large is-fullwidth" id="create-chapter">添加</button>
+          </footer>
+        </div>
+      </div>
+      <div class="modal" id="edit-chapter-dialog">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">输入章节标题</p>
+            <button class="delete" id="edit-chapter-dialog-close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <div class="control">
+                <input class="input is-success is-large" placeholder="无标题" id="edit-title"/>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-footer">
+            <button class="button is-success is-fullwidth is-large" data-bid="{{book.id}}" data-cid="" id="edit-chapter">确认修改</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="{{url_for('static', filename='js/dragula.min.js')}}"></script>
+<script>
+Zepto(function($) {
+  $("#add-chapter").on('click', function() {
+    $('#add-chapter-dialog').toggleClass("is-active");
+  });
+  $("#add-chapter-dialog-close").on('click', function() {
+    $('#add-chapter-dialog').toggleClass("is-active");
+  });
+  $("#edit-chapter-dialog-close").on('click', function() {
+    $('#edit-chapter-dialog').toggleClass("is-active");
+  });
+  $("#create-chapter").on('click', function() {
+    var title = $.trim($('#add-title').val());
+    if(!title) {
+      return;
+    }
+    var version = "{{ book.version }}";
+    var url = "{{url_for('book.add_chapter_api', book_id=book.id)}}";
+    $.post(url, {title: title, version: version}, function() {
+      window.location.reload();
+    });
+  });
+  $('#chapter-box').on('click', 'a[data-op=edit]', function() {
+    $('#edit-title').val($(this).data("title"));
+    $('#edit-chapter-dialog').toggleClass("is-active");
+    $('#edit-chapter').data("cid", $(this).data("cid"));
+  });
+  $('#edit-chapter').on('click', function() {
+    var chapterId = $(this).data("cid");
+    var title = $.trim($('#edit-title').val());
+    var version = "{{ book.version }}";
+    var url = "/book/{{book.id}}/chapter/" + chapterId + "/edit_title.json";
+    $.post(url, {title: title, version: version}, function() {
+      window.location.reload();
+    });
+  });
+  var drake = dragula($('#chapter-box').get());
+  drake.on('drop', function(el, target, source, sibling) {
+      var source_id = $(el).data("cid");
+      var target_id = null;
+      if(sibling != null) {
+        target_id = $(sibling).data("cid");
+      }
+      var version = "{{ book.version }}";
+      var url = "/book/{{book.id}}/chapter/swap.json";
+      var data = {
+        version: version,
+        source_id: source_id
+      };
+      if(target_id) {
+        data["target_id"] = target_id;
+      }
+      console.log(url);
+      console.log(data);
+      $.post(url, data, function(resp) {
+        console.log(resp);
+        window.location.reload();
+      });
+  });
+});
+</script>
+{% endblock %}

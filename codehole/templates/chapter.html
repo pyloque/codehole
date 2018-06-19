@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}码洞—文章—{{ article.title }}{% endblock %}
+{% block title %}码洞—{{book.title}}{% endblock %}
 
 {% block css %}
 {{super()}}
@@ -21,15 +21,15 @@
         <div class="card article">
           <div class="media">
             <div class="media-content">
-              <img src="{{article.icon}}"/>
-              <p class="title is-3">{{article.title}}</p>
-              <a href="{{url_for('article.article_edit', article_id=article.id)}}">编辑</a>
+              <p class="title is-3">第{{chapter.index+1}}章——{{chapter.title}}</p>
+              <a class="button is-outlined is-link" href="{{url_for('book.edit_chapter', book_id=book.id, chapter_id=chapter.id)}}">编辑内容</a>
+              <a class="button is-outlined is-link" href="{{url_for('book.book', book_id=book.id, )}}#chapters">回到目录</a>
             </div>
           </div>
         </div>
         <hr>
 		    <div class="content">
-		      {{ article.html|safe }}
+		      {{ chapter.html|safe }}
 		    </div>
       </div>
     </div>

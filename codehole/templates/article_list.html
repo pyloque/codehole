@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}码洞—文章大全{% endblock %}
+
+{% block css %}
+{{super()}}
+<style>
+.article {
+    margin: 10px;
+    padding: 10px;
+    border: 0;
+    box-shadow:0 0 0 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+		  {% for article in articles %}
+      <div class="card article">
+        <div class="media">
+          <div class="media-left">
+              <a href="{{url_for('article.article', article_id=article.id)}}">
+                <img src="{{article.icon}}" width="178" height="100"/>
+              </a>
+          </div>
+          <div class="media-content">
+            <p class="title is-5"><a href="{{url_for('article.article', article_id=article.id)}}" class="button is-text">{{article.title}}</a></p>
+            <p class="subtitle is-6">
+              {{article.summary}}
+            </p>
+          </div>
+        </div>
+      </div>
+		  {% endfor %}
+    </div>
+</div>
+{% endblock %}

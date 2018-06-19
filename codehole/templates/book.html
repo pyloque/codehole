@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}码洞—小册—{{book.title}}{% endblock %}
+
+{% block css %}
+{{super()}}
+<style>
+.article {
+    margin-bottom: 20px;
+    padding: 0px;
+    border: 0;
+    box-shadow:0 0 0 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+      <div class="box">
+        <div class="card article">
+          <div class="media">
+            <div class="media-content">
+              <img src="{{book.icon}}"/>
+              <p class="title is-3">{{book.title}}</p>
+              <a class="button is-link is-outlined" href="{{url_for('book.book_edit', book_id=book.id)}}">编辑介绍</a>
+              <a class="button is-link is-outlined" href="{{url_for('book.book_chapters_edit', book_id=book.id)}}">编辑章节</a>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="menu" id="chapters">
+          <ul class="menu-list">
+            {% for chapter in chapters %}
+            <li>
+              <a class="button is-link is-outlined" href="{{url_for('book.chapter', book_id=book.id, chapter_id=chapter.id)}}">
+                第{{loop.index}}章：{{chapter.title}}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <hr>
+		    <div class="content">
+		      {{ book.html|safe }}
+		    </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

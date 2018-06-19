@@ -9,8 +9,8 @@ with app.app_context():
     from codehole.db import db
     db.create_all()
 
-from codehole.views import book, chapter, article, index
+from codehole.views import book, article, preview, index
 app.register_blueprint(article.blueprint)
 app.register_blueprint(book.blueprint)
-app.register_blueprint(chapter.blueprint)
+app.register_blueprint(preview.blueprint)
 app.register_blueprint(index.blueprint)

@@ -12,6 +12,6 @@ def home():
     articles = (
         ArticleModel.query
         .order_by(ArticleModel.create_date.desc())
-        .limit(10).all())
+        .limit(20).all())
     return render_template(
         "home.html", articles=articles, books=books)

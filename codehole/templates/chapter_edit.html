@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}码洞——编辑小册章节{% endblock %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-three-fifths is-offset-one-fifth">
+      <form method="POST">
+      <div class="box">
+        <div class="card article">
+          <div class="card-content">
+            <p class="title is-3">{{book.title}}</p>
+            <a class="button is-link is-outlined" href="{{url_for('book.book_chapters_edit', book_id=book.id)}}">目录列表</a>
+            <a class="button is-link is-outlined" href="{{url_for('book.chapter', book_id=book.id, chapter_id=chapter.id)}}">查看章节内容</a>
+          </div>
+        </div>
+        <hr/>
+        <input type="hidden" name="version" value="{{chapter.version}}"/>
+        <div class="field">
+          <label class="label">Markdown内容</label>
+          <div class="control">
+            <textarea class="textarea is-info" name="source" rows=100 id="source" type="text" placeholder="Markdown">{{chapter.source or ''}}</textarea>
+          </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered">
+          <div class="control">
+            <button class="button is-primary">保存章节</button>
+            <a class="button is-light" href="{{url_for('book.chapter', book_id=book.id, chapter_id=chapter.id)}}">取消修改</a>
+            <button class="button is-info" type="button" id="preview">预览</button>
+          </div>
+        </div>
+        <div class="content" id="html">
+        </div>
+      </div>
+      </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+<script>
+Zepto(function() {
+  $('#preview').on('click', function() {
+    var source = $.trim($('#source').val());
+    $.post("/preview/markdown.json", {content: source}, function(response) {
+      $('#html').html(response.content);
+    });
+  });
+});
+</script>
+{% endblock %}

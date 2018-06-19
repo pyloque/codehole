@@ -7,6 +7,7 @@
     <div class="column is-three-fifths is-offset-one-fifth">
       <form method="POST">
       <div class="box">
+        <input type="hidden" name="version" value="{{article.version}}"/>
         <div class="field">
           <label class="label">作者</label>
           <div class="control">
@@ -41,7 +42,10 @@
           <div class="control">
             <button class="button is-primary">发表文章</button>
             <a class="button is-light" href="{{url_for('article.article', article_id=article.id)}}">取消修改</a>
+            <button class="button is-info" type="button" id="preview">预览</button>
           </div>
+        </div>
+        <div class="content" id="html">
         </div>
       </div>
       </form>
@@ -62,6 +66,12 @@ Zepto(function() {
         return true;
       }
       return false;
+  });
+  $('#preview').on('click', function() {
+    var source = $.trim($('#source').val());
+    $.post("/preview/markdown.json", {content: source}, function(response) {
+      $('#html').html(response.content);
+    });
   });
 });
 </script>
