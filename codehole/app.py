@@ -1,8 +1,10 @@
 # pylint: disable=all
 
+import os
 from flask import Flask
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/codehole.db'
+dbfile = os.path.expanduser('~') + '/data/codehole.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 with app.app_context():
