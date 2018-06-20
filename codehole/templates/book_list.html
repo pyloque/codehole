@@ -8,28 +8,32 @@
 .article {
     margin: 10px;
     padding: 10px;
-    border: 0;
-    box-shadow:0 0 0 0;
+}
+.title a {
+  color: black;
+}
+hr {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="columns">
-    <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="column is-4 is-offset-4">
 		  {% for book in books %}
       <div class="card article">
         <div class="media">
-          <div class="media-left">
-              <a href="{{url_for('book.book', book_id=book.id)}}">
-                <img src="{{book.icon}}" width="178" height="100"/>
-              </a>
-          </div>
-          <div class="media-content">
-            <p class="title is-5"><a href="{{url_for('book.book', book_id=book.id)}}" class="button is-text">{{book.title}}</a></p>
+          <div class="media-content has-text-centered">
+            <a href="{{url_for('book.book', book_id=book.id)}}">
+              <img src="{{book.icon}}" width="356" height="200"/>
+            </a>
+            <p class="title is-5"><a href="{{url_for('book.book', book_id=book.id)}}">{{book.title}}</a></p>
           </div>
         </div>
       </div>
+      <hr>
 		  {% endfor %}
     </div>
 </div>

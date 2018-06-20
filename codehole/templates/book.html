@@ -11,6 +11,16 @@
     border: 0;
     box-shadow:0 0 0 0;
 }
+.article img {
+  text-align: center;
+}
+hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.content {
+  margin-top: 10px;
+}
 </style>
 {% endblock %}
 
@@ -22,7 +32,7 @@
           <div class="media">
             <div class="media-content">
               <img src="{{book.icon}}"/>
-              <p class="title is-3">{{book.title}}</p>
+              <p class="title is-4">{{book.title}}</p>
               <a class="button is-link is-outlined" href="{{url_for('book.book_edit', book_id=book.id)}}">编辑介绍</a>
               <a class="button is-link is-outlined" href="{{url_for('book.book_chapters_edit', book_id=book.id)}}">编辑章节</a>
             </div>
@@ -33,14 +43,14 @@
           <ul class="menu-list">
             {% for chapter in chapters %}
             <li>
-              <a class="button is-link is-outlined" href="{{url_for('book.chapter', book_id=book.id, chapter_id=chapter.id)}}">
+              <a class="is-outlined" href="{{url_for('book.chapter', book_id=book.id, chapter_id=chapter.id)}}">
                 第{{loop.index}}章：{{chapter.title}}
               </a>
+              <hr>
             </li>
             {% endfor %}
           </ul>
         </div>
-        <hr>
 		    <div class="content">
 		      {{ book.html|safe }}
 		    </div>

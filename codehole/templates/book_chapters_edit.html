@@ -21,10 +21,10 @@
         <div class="card-content">
           <div class="field has-addons">
             <div class="control is-expanded">
-              <a class="button is-fullwidth is-text" href="{{url_for('book.edit_chapter', book_id=book.id, chapter_id=chapter.id)}}">第{{loop.index}}章：{{chapter.title}}</a>
+              <a href="{{url_for('book.edit_chapter', book_id=book.id, chapter_id=chapter.id)}}" class="title is-6">第{{loop.index}}章：{{chapter.title}}</a>
             </div>
             <div class="control">
-              <a class="button" data-op="edit" data-title="{{chapter.title}}" data-cid="{{chapter.id}}">
+              <a class="button is-small is-outlined is-link" data-op="edit" data-title="{{chapter.title}}" data-cid="{{chapter.id}}">
                 修改标题
               </a>
             </div>

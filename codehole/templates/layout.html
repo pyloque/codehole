@@ -6,21 +6,27 @@
 <title>{% block title %}{% endblock %}</title>
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.min.css') }}"/>
+<style>
+.hero-body {
+    padding-top: 10px;
+    padding-bottom: 16px;
+}
+</style>
 {% endblock %}
 </head>
 <body>
 {%block body%}
 <nav class="navbar is-warning">
-  	<div class="navbar-brand" style="padding:0">
-		  <a class="navbar-item" href="#">
-			  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="码洞"/>
-		  </a>
-      <a class="navbar-burger" id="nav-burger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </a>
-  	</div>
+  <div class="navbar-brand" style="padding:0">
+		 <a class="navbar-item" href="{{url_for('home.home')}}">
+		  <img src="{{ url_for('static', filename='img/logo.png') }}" alt="码洞"/>
+		 </a>
+     <a class="navbar-burger" id="nav-burger">
+       <span></span>
+       <span></span>
+       <span></span>
+     </a>
+  </div>
 	<div class="navbar-menu is-warning" id="nav-menu">
 		<div class="navbar-start">
 			<a class="navbar-item" href="{{url_for('home.home')}}">
@@ -57,14 +63,19 @@
 </nav>
 <section class="hero is-warning">
 	<div class="hero-body">
-	    <div class="container">
-	        <h1 class="title">
-			         码洞
-	        </h1>
-	        <h2 class="subtitle">
-	        Fire in the Codehole!
-	        </h2>
-	    </div>
+    <div class="media">
+      <div class="media-left">
+        <img src="https://user-gold-cdn.xitu.io/2018/6/18/16410f536b71943e?w=258&h=258&f=jpeg&s=27486" width="64" height="64"/>
+      </div>
+      <div class="media-content">
+	     <h1 class="title">
+		       码洞
+	     </h1>
+	     <h2 class="subtitle">
+	          Fire in the Codehole!
+	     </h2>
+      </div>
+    </div>
 	</div>
 </section>
 {% block content %}{% endblock %}

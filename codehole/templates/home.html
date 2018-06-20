@@ -11,6 +11,13 @@
     border: 0;
     box-shadow:0 0 0 0;
 }
+.title a {
+  color: black;
+}
+hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 </style>
 {% endblock %}
 
@@ -22,17 +29,20 @@
         <div class="media">
           <div class="media-left">
               <a href="{{url_for('article.article', article_id=article.id)}}">
-                <img src="{{article.icon}}" width="178" height="100"/>
+                <img src="{{article.icon}}" width="89" height="50"/>
               </a>
           </div>
           <div class="media-content">
-            <p class="title is-5"><a href="{{url_for('article.article', article_id=article.id)}}" class="button is-text">{{article.title}}</a></p>
+            <p class="title is-5">
+              <a href="{{url_for('article.article', article_id=article.id)}}" class="is-dark">{{article.title}}</a>
+            </p>
             <p class="subtitle is-6">
               {{article.summary}}
             </p>
           </div>
         </div>
       </div>
+      <hr>
 		  {% endfor %}
     </div>
 </div>
