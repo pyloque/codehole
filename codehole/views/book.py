@@ -7,7 +7,7 @@ blueprint = Blueprint('book', __name__, url_prefix='/book')
 
 from codehole.db import db, BookModel, ChapterModel
 from codehole.core import random_id
-from codehole.core import markdown
+from mistune import markdown
 
 
 @blueprint.route(

@@ -5,7 +5,7 @@ blueprint = Blueprint('article', __name__, url_prefix='/article')
 
 from codehole.db import db, ArticleModel
 from codehole.core import random_id
-from codehole.core import markdown
+from mistune import markdown
 
 
 @blueprint.route("/", methods=["GET"], endpoint="article_list")

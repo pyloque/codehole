@@ -2,7 +2,7 @@
 
 from flask import request, jsonify, Blueprint
 
-from codehole.core import markdown
+from mistune import markdown
 
 blueprint = Blueprint("preview", __name__, url_prefix='/preview')
 
