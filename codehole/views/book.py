@@ -1,6 +1,5 @@
 # pylint: disable=all
 
-import markdown
 
 from flask import request, Blueprint, abort, jsonify
 from flask import redirect, render_template, url_for
@@ -8,6 +7,7 @@ blueprint = Blueprint('book', __name__, url_prefix='/book')
 
 from codehole.db import db, BookModel, ChapterModel
 from codehole.core import random_id
+from codehole.core import markdown
 
 
 @blueprint.route(
@@ -91,7 +91,7 @@ def book_update(book_id):
     book.qrcode = qrcode
     book.source = source
     book.version += 1
-    book.html = markdown.markdown(source)
+    book.html = markdown(source)
     db.session.commit()
     return redirect(url_for('book.book', book_id=book_id))
 
@@ -254,7 +254,7 @@ def update_chapter(book_id, chapter_id):
     if chapter.version != version:
         abort(412)
     chapter.source = source
-    chapter.html = markdown.markdown(source)
+    chapter.html = markdown(source)
     chapter.version += 1
     db.session.commit()
     return redirect(

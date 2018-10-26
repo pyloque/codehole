@@ -2,7 +2,7 @@
 
 from flask import request, jsonify, Blueprint
 
-import markdown
+from codehole.core import markdown
 
 blueprint = Blueprint("preview", __name__, url_prefix='/preview')
 
@@ -11,5 +11,5 @@ blueprint = Blueprint("preview", __name__, url_prefix='/preview')
 def markdown_to_html():
     content = (request.form.get('content') or '').strip()
     return jsonify({
-        "content": markdown.markdown(content)
+        "content": markdown(content)
     })

@@ -1,12 +1,11 @@
 # pylint: disable=all
-import markdown
-
 from flask import Blueprint, request, abort
 from flask import redirect, render_template, url_for
 blueprint = Blueprint('article', __name__, url_prefix='/article')
 
 from codehole.db import db, ArticleModel
 from codehole.core import random_id
+from codehole.core import markdown
 
 
 @blueprint.route("/", methods=["GET"], endpoint="article_list")
@@ -75,7 +74,7 @@ def article_update(article_id):
     version = int(version)
     if version != article.version:
         abort(400)
-    html = markdown.markdown(source)
+    html = markdown(source)
     article.title = title
     article.author = author
     article.icon = icon
